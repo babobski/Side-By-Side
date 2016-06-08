@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Side By Side Diff</title>
+    <link href="less://SideBySide/skin/diffViewer.less" rel="stylesheet" />
+    <script type="text/javascript" src="chrome://SideBySide/content/js/diffview.js"></script>
+    <script type="text/javascript" src="chrome://SideBySide/content/js/difflib.js"></script>
+    
+    <script>
+        var self = window.arguments[0];
+        
+        function diffUsingJS() {
+            var base = difflib.stringAsLines(self.diff01);
+            var newtxt = difflib.stringAsLines(self.diff02);
+        
+            var sm = new difflib.SequenceMatcher(base, newtxt);
+        
+            var opcodes = sm.get_opcodes();
+            var diffoutputdiv = document.getElementById("difwindow");
+            while (diffoutputdiv.firstChild) diffoutputdiv.removeChild(diffoutputdiv.firstChild);
+        
+            diffoutputdiv.appendChild(diffview.buildView({
+                baseTextLines: base,
+                newTextLines: newtxt,
+                opcodes: opcodes,
+                // set the display titles for each resource
+                baseTextName: self.title01,
+                newTextName: self.title02,
+                contextSize: null,
+                viewType: 0
+            }));
+        }
+    
+    window.addEventListener('load', diffUsingJS);
+    </script>
+</head>
+
+<body>
+    
+    <div id="difwindow">
+        
+    </div>
+
+</body>
+</html>

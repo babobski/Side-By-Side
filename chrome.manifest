@@ -1,0 +1,4 @@
+content SideBySide content/
+overlay chrome://komodo/content/komodo.xul chrome://SideBySide/content/overlay.xul
+overlay chrome://komodo/content/commandsOverlay.xul chrome://SideBySide/content/commandsOverlay.xul
+skin SideBySide classic/1.0 skin/

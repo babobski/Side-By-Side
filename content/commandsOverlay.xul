@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE overlay PUBLIC "-//MOZILLA//DTD XUL V1.0//EN" "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<overlay id="SideBySideCommandOverlay"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+		 
+   <broadcasterset id="broadcasterset_global">
+      <broadcaster
+        id="cmd_side_by_side_files"
+        key="key_cmd_side_by_side_files"
+        desc="Side By Side: Diff Files"
+        oncommand="extensions.SideBySide.compareFiles();"/>
+	  <broadcaster
+        id="cmd_side_by_side_clipoard"
+        key="key_cmd_side_by_side_clipoard"
+        desc="Side By Side: Diff with Clipboard"
+        oncommand="extensions.SideBySide.compareWithClipoard();"/>
+   </broadcasterset>
+
+</overlay> 
+ 
