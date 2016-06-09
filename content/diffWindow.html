@@ -11,8 +11,8 @@
         var self = window.arguments[0];
         
         function diffUsingJS() {
-            var base = difflib.stringAsLines(self.diff01);
-            var newtxt = difflib.stringAsLines(self.diff02);
+            var newtxt = difflib.stringAsLines(self.diff01);
+            var base = difflib.stringAsLines(self.diff02);
         
             var sm = new difflib.SequenceMatcher(base, newtxt);
         
@@ -25,8 +25,8 @@
                 newTextLines: newtxt,
                 opcodes: opcodes,
                 // set the display titles for each resource
-                baseTextName: self.title01,
-                newTextName: self.title02,
+                newTextName: self.title01,
+                baseTextName: self.title02,
                 contextSize: null,
                 viewType: 0
             }));

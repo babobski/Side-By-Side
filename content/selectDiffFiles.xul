@@ -11,10 +11,10 @@
 
 	<script>
 		function doOK() {
-			var diff01 = document.getElementById('file01');
-			var diff02 = document.getElementById('file02');
+			var newText = document.getElementById('file01');
+			var base = document.getElementById('file02');
 			
-			extensions.SideBySide._openDiff(diff01.value, diff02.value);
+			extensions.SideBySide._openDiff(base.value, newText.value);
 		}
 	</script>
 
