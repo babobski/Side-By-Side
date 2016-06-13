@@ -88,9 +88,9 @@ diffview = {
 			node.appendChild(ctelt("th", "texttitle", baseTextName + " vs. " + newTextName));
 		} else {
 			node.appendChild(document.createElement("th"));
-			node.appendChild(ctelt("th", "texttitle", baseTextName));
-			node.appendChild(document.createElement("th"));
 			node.appendChild(ctelt("th", "texttitle", newTextName));
+			node.appendChild(document.createElement("th"));
+			node.appendChild(ctelt("th", "texttitle", baseTextName));
 		}
 		tdata = [tdata];
 		
@@ -127,10 +127,10 @@ diffview = {
 		for (var idx = 0; idx < opcodes.length; idx++) {
 			code = opcodes[idx];
 			change = code[0];
-			var b = code[1];
-			var be = code[2];
-			var n = code[3];
-			var ne = code[4];
+			var b = code[3];
+			var be = code[4];
+			var n = code[1];
+			var ne = code[2];
 			var rowcnt = Math.max(be - b, ne - n);
 			var toprows = [];
 			var botrows = [];
@@ -173,8 +173,8 @@ diffview = {
 						addCellsInline(node, b++, n++, baseTextLines, change);
 					}
 				} else {
-					b = addCells(node, b, be, baseTextLines, change);
-					n = addCells(node, n, ne, newTextLines, change);
+					b = addCells(node, b, be, newTextLines, change);
+					n = addCells(node, n, ne, baseTextLines, change);
 				}
 			}
 

@@ -9,9 +9,11 @@
     
     <script>
         var self = window.arguments[0];
+		var scrollPoints = [];
+		var currenChange = 0;
         
         function diffUsingJS() {
-            var newtxt = difflib.stringAsLines(self.diff01);
+            var newtxt  = difflib.stringAsLines(self.diff01);
             var base = difflib.stringAsLines(self.diff02);
         
             var sm = new difflib.SequenceMatcher(base, newtxt);
@@ -30,14 +32,148 @@
                 contextSize: null,
                 viewType: 0
             }));
+            
+            viewChanges(opcodes);
         }
+        
+        function viewChanges(op) {
+			
+            var insert =+ 0;
+            var del =+ 0;
+            var change =+ 0;
+            var newLabel = document.getElementById('new');
+            var changeLabel = document.getElementById('change');
+            var delLabel = document.getElementById('delete');
+			var firstScroll = false;
+			var changeStatus = document.getElementById('changeStatus');
+            
+            
+            for (var i = 0; i < op.length; i++) {
+				if (op[i][0] !== 'equal') {
+					scrollPoints.push(op[i][1]);
+					if (firstScroll === false) {
+						firstScroll = op[i][1];
+					}
+				}
+                switch (op[i][0]) {
+					case 'insert':
+                        insert++;
+                        break;
+                    case 'delete':
+                        del++;
+                        break;
+                    case 'replace':
+                        change++;
+                        break;
+				}
+			}
+            
+            newLabel.innerHTML = 'Inserted: ' + insert;
+            delLabel.innerHTML = 'Deleted: ' + del;
+            changeLabel.innerHTML = 'Changed: ' + change;
+			
+			if ((insert + del + change) > 0) {
+				var th = document.getElementsByTagName('th');
+				
+				for (id = 0; id < th.length; id++) {
+					var $this = th[id];
+					
+					if (firstScroll == $this.innerHTML) {
+						var pos = $this.getBoundingClientRect();
+						var top = pos.top;
+						
+						  window.scrollTo(0, top - 50);
+						  changeStatus.innerHTML = '1 of ' + scrollPoints.length;
+						  return;
+					}
+				}
+			}
+		}
+		
+		function scrollToPrev() {
+			var ths = document.getElementsByTagName('th');
+			var changeStatus = document.getElementById('changeStatus');
+			if (scrollPoints.length === 0) {
+				return;
+			}
+			
+			var scrollTo = scrollPoints[currenChange - 1];
+			
+			for (inx = 0; inx < ths.length; inx++) {
+				var $this = ths[inx];
+				
+				if (scrollTo == $this.innerHTML) {
+					var pos = $this.getBoundingClientRect();
+					var top = pos.top;
+					
+					  window.scrollTo(0, (top + window.pageYOffset) - 50);
+					  currenChange--;
+					  changeStatus.innerHTML = (currenChange + 1) +  ' of ' + scrollPoints.length;
+					  return;
+				}
+			}
+		}
+		
+		function scrollToNext() {
+			var ths = document.getElementsByTagName('th');
+			var changeStatus = document.getElementById('changeStatus');
+			
+			if (scrollPoints.length === 0) {
+				return;
+			}
+			
+			var scrollTo = scrollPoints[currenChange + 1];
+			
+			for (inx = 0; inx < ths.length; inx++) {
+				var $this = ths[inx];
+				
+				if (scrollTo == $this.innerHTML) {
+					var pos = $this.getBoundingClientRect();
+					var top = pos.top;
+					
+					  window.scrollTo(0, (top + window.pageYOffset) - 50);
+					  currenChange++;
+					  changeStatus.innerHTML = (currenChange + 1) +  ' of ' + scrollPoints.length;
+					  return;
+				}
+			}
+		}
     
     window.addEventListener('load', diffUsingJS);
     </script>
 </head>
 
 <body>
-    
+    <div id="diff-header">
+		<div id="buttons">
+			<button id="prev" onclick="scrollToPrev();">
+				Previous Change
+			</button>
+			<button id="next" onclick="scrollToNext();">
+				Next Change
+			</button>
+			<div id="changeStatus">
+				No changes found
+			</div>
+		</div>
+		
+        <div id="changes">
+			<div>
+				<strong>
+					Changed:
+				</strong>
+			</div>
+            <div id="new">
+                
+            </div>
+            <div id="change">
+                
+            </div>
+            <div id="delete">
+                
+            </div>
+        </div>
+    </div>
     <div id="difwindow">
         
     </div>

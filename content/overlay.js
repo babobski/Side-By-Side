@@ -42,6 +42,27 @@ if (typeof(extensions.SideBySide) === 'undefined') extensions.SideBySide = {
 	};
 	
 	/**
+	 * COMPARE WITH FILE ON DISK
+	 * Compare current buffer with file on disk
+	 */
+	this.compareWithDisk = function(){
+		var d = ko.views.manager.currentView.document || ko.views.manager.currentView.koDoc,
+		file = d.file,
+		buffer = d.buffer,
+		path = (file) ? file.URI : null,
+		diskContent = '';
+		
+		if (!file) {
+			return false;
+		}
+		
+		diskContent = self._readFile(path);
+		
+		self._openDiffWindow(buffer, diskContent, 'Current buffer', path);
+		
+	};
+	
+	/**
 	 * Select files for file diff
 	 */
 	this._selectDiffFilesWindow = function(){
@@ -75,6 +96,28 @@ if (typeof(extensions.SideBySide) === 'undefined') extensions.SideBySide = {
 		
 		 win.openDialog(chromeURL, 'SideBySide',
                        features, windowVars);
+	};
+	
+	this._readFile = function(filepath) {
+
+		var reader = Components.classes["@activestate.com/koFileEx;1"]
+			.createInstance(Components.interfaces.koIFileEx),
+			placeholder;
+
+		reader.path = filepath;
+
+		try {
+			reader.open("r");
+			placeholder = reader.readfile();
+			reader.close();
+			
+			return placeholder;
+
+		} catch (e) {
+			alert('DIFF ERROR: Reading file: ' + filepath);
+		}
+
+		return false;
 	};
 	
 	

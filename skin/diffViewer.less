@@ -31,6 +31,8 @@ or implied, of Chas Emerick.
 @import url("chrome://komodo/skin/global/colors.less");
 @import url("resource://profile/colors.less");
 
+@test: #333;
+
 body,
 html {
 	margin: 0;
@@ -38,12 +40,69 @@ html {
 	background-color: @background;
 }
 
+#buttons {
+	float: left;
+	button {
+		color: @button-foreground;
+		font-family: @font;
+		font-size: 12px;
+		background-color: @button;
+		padding: 2px 10px;
+		margin-left: 5px;
+		border: none;
+		-webkit-transition: 200ms ease;
+		transition: 200ms ease;
+		&:hover, &:focus, &:active {
+			background-color: @secondary-special;
+			color: @foreground-special;
+		}
+	}
+	#changeStatus {
+		display: inline-block;
+		padding: 5px 10px;
+		font-family: @font;
+		font-size: 12px;
+		color: @foreground;
+	}
+}
+
+#diff-header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 28px;
+	background-color: @background;
+	padding-top: 2px;
+	border-bottom: 1px solid @border;
+	#changes {
+		float: right;
+		> div {
+			display: inline-block;
+			padding: 5px 10px;
+			font-family: @font;
+			font-size: 12px;
+			color: @foreground;
+			&#new {
+				color: @state-ok;
+			}
+			&#change {
+				color: @state-warning;
+			}
+			&#delete {
+				color: @state-error;
+			}
+		}
+	}
+}
+
 #difwindow {
+	padding-top: 28px;
 	width: 100%;
 	min-width: 1600px;
 	min-height: 800px;
-	max-width: 80vw;
-	max-height: 80vh;
+	max-width: 98vw;
+	max-height: 92vh;
 	height: 100%;
 	background-color: @background;
 	color: @foreground;

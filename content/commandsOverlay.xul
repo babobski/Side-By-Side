@@ -18,6 +18,11 @@
         key="key_cmd_side_by_side_clipoard"
         desc="Side By Side: Diff with Clipboard"
         oncommand="extensions.SideBySide.compareWithClipoard();"/>
+	  <broadcaster
+        id="cmd_side_by_side_disk"
+        key="key_cmd_side_by_side_disk"
+        desc="Side By Side: Diff current buffer with file on disk"
+        oncommand="extensions.SideBySide.compareWithDisk();"/>
    </broadcasterset>
 
 </overlay> 
