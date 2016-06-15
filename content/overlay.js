@@ -10,6 +10,7 @@ if (typeof(extensions.SideBySide) === 'undefined') extensions.SideBySide = {
 	
     var $       	= require("ko/dom"),
 		notify		= require("notify/notify"),
+		clipboard 	= require("sdk/clipboard"),
 		self		= this;
 	
 	/**
@@ -26,8 +27,7 @@ if (typeof(extensions.SideBySide) === 'undefined') extensions.SideBySide = {
 	 * Compare current buffer with clipboard
 	 */
 	this.compareWithClipoard = function(){
-		var clipboard = require("sdk/clipboard"),
-			clipboardValue = clipboard.get();
+		var clipboardValue = clipboard.get();
 			var d = ko.views.manager.currentView.document || ko.views.manager.currentView.koDoc,
 			file = d.file,
 			buffer = d.buffer,
@@ -95,6 +95,27 @@ if (typeof(extensions.SideBySide) === 'undefined') extensions.SideBySide = {
 		};
 		
 		 win.openDialog(chromeURL, 'SideBySide',
+                       features, windowVars);
+	};
+	
+	/**
+	 * Open the diff window
+	 */
+	this._openAdvancedDiffWindow = function(diff01, diff02){
+		var win = Components.classes['@mozilla.org/appshell/window-mediator;1']
+		.getService(Components.interfaces.nsIWindowMediator)
+		.getMostRecentWindow(null);
+		var chromeURL = 'chrome://SideBySide/content/advancedDiff.html';
+		var features = "chrome,titlebar,toolbar,centerscreen,resizable, alwaysRaised";
+		var windowVars = {
+			ko: ko,
+			overlay: self,
+			diff01: diff01,
+			diff02: diff02,
+			clipboard: clipboard,
+		};
+		
+		 win.openDialog(chromeURL, 'SideBySideAdv',
                        features, windowVars);
 	};
 	

@@ -9,12 +9,14 @@
     
     <script>
         var self = window.arguments[0];
+		var overlay = self.overlay;
 		var scrollPoints = [];
 		var currenChange = 0;
+		var changes = [];
+		var newtxt  = difflib.stringAsLines(self.diff01);
+		var base = difflib.stringAsLines(self.diff02);
         
         function diffUsingJS() {
-            var newtxt  = difflib.stringAsLines(self.diff01);
-            var base = difflib.stringAsLines(self.diff02);
         
             var sm = new difflib.SequenceMatcher(base, newtxt);
         
@@ -63,17 +65,27 @@
                         del++;
                         break;
                     case 'replace':
+						changes.push(op[i]);
                         change++;
                         break;
 				}
 			}
-            
+			
             newLabel.innerHTML = 'Inserted: ' + insert;
             delLabel.innerHTML = 'Deleted: ' + del;
             changeLabel.innerHTML = 'Changed: ' + change;
 			
 			if ((insert + del + change) > 0) {
 				var th = document.getElementsByTagName('th');
+				var td = document.getElementsByTagName('td');
+				
+				for (var ix = 0; ix < td.length; ix++) {
+					var $thisTd = td[ix];
+					
+					if ($thisTd.classList.contains('replace')) {
+						$thisTd.addEventListener('click', showAdvancedDiff);
+					}
+				}
 				
 				for (id = 0; id < th.length; id++) {
 					var $this = th[id];
@@ -87,6 +99,7 @@
 						  return;
 					}
 				}
+				
 			}
 		}
 		
@@ -137,6 +150,92 @@
 					  return;
 				}
 			}
+		}
+		
+		function showAdvancedDiff() {
+			var lineNumber =+ this.previousSibling.innerHTML;
+			var diffs = procesChanges(changes, base, newtxt);
+			var diffFound = false;
+			var diff01;
+			var diff02;
+			var cellIndex = this.cellIndex;
+			
+			for (var i = 0; i < diffs.length; i++) {
+				var ch = diffs[i];
+				
+				if (inRange(ch.baseRange, lineNumber) && cellIndex === 3 || inRange(ch.newRange, lineNumber) && cellIndex === 1) {
+					diff01 = ch.base;
+					diff02 = ch.newL;
+					diffFound = true;
+				}
+			}
+			
+			if (diffFound) {
+				overlay._openAdvancedDiffWindow(diff01, diff02);
+			}
+		}
+		
+		function inRange(diff, lnbr) {
+			var st = diff.start;
+			var end = diff.end;
+			
+			return lnbr >= st && lnbr <= end ? true : false;
+		}
+		
+		function procesChanges(changes, base, newtxt) {
+			var result = [];
+			
+			for (var i = 0; i < changes.length; i++) {
+				var x = changes[i];
+				var baseStart;
+				var baseEnd = x[2];
+				var newStart;
+				var newEnd = x[4];
+				var baseLines = '';
+				var newLines = '';
+				var change;
+				var EOL = test_eol(self.diff01);
+				
+				
+				for (baseStart = x[1]; baseStart < baseEnd; baseStart++) {
+					baseLines = baseLines + base[baseStart] + EOL;
+				}
+				
+				for (newStart = x[3]; newStart < newEnd; newStart++) {
+					newLines = newLines + newtxt[newStart] + EOL;
+				}
+				
+				
+				change = {
+					baseRange: {
+						start: x[1],
+						end: baseEnd,
+					},
+					newRange: {
+						start: x[3],
+						end: newEnd,
+					},
+					base: baseLines,
+					newL: newLines,
+				};
+				
+				
+				result.push(change);
+			}
+			
+			return result;
+		}
+		
+		function test_eol(source) {
+			var cleanSource = source.replace(/(\/\*[^\*]+\*\/|\/.[^\s]+\/)/g, ''); //remove reggex and comments
+			if (/\r\n/i.test(cleanSource)) {
+				return '\r\n';
+			} else if (/\r/i.test(cleanSource) && /\n/i.test(cleanSource) === false) {
+				return '\r';
+			} else if (/\n/i.test(cleanSource) && /\r/i.test(cleanSource) === false) {
+				return '\n';
+			}
+			return '\n';
 		}
     
     window.addEventListener('load', diffUsingJS);

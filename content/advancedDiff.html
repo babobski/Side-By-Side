@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Inline Diff</title>
+    <link href="less://SideBySide/skin/diffViewer.less" rel="stylesheet" />
+    <script type="text/javascript" src="chrome://SideBySide/content/js/advancedDiff.js"></script>
+    
+    <script>
+        var self = window.arguments[0],
+			overlay = self.overlay,
+			base = self.diff01,
+			newTxt = self.diff02,
+			clipboard = self.clipboard;
+			
+			
+			function diffChanges() {
+				var span = null,
+					added = 0,
+					del = 0;
+			
+				var diff = JsDiff.diffChars(base, newTxt),
+					display = document.getElementById('advancedDiff'),
+					spans = document.getElementsByTagName('span'),
+					fragment = document.createDocumentFragment();
+			
+				diff.forEach(function(part) {
+					if (part.added) {
+						added++;
+					} else if (part.removed) {
+						del++;
+					}
+			
+					dclass = part.added ? 'added' :
+						part.removed ? 'removed' : '';
+					span = document.createElement('span');
+					if (dclass !== '') {
+						span.classList.add(dclass);
+					}
+					span.appendChild(document
+						.createTextNode(part.value));
+					fragment.appendChild(span);
+				});
+				
+				display.appendChild(fragment);
+				viewChanges(added, del);
+				
+				for (var i = 0; i < spans.length; i++) {
+					spans[i].addEventListener('click', copyDiff);
+				}
+			}
+			
+			function viewChanges(insert, del) {
+				var newLabel = document.getElementById('new');
+				var delLabel = document.getElementById('delete');
+				
+				newLabel.innerHTML = 'Inserted: ' + insert;
+				delLabel.innerHTML = 'Deleted: ' + del;
+			}
+			
+			function copyDiff() {
+				var $this = this;
+				if ($this.classList.contains('added') || $this.classList.contains('removed')) {
+					clipboard.set($this.innerHTML);
+					$this.classList.add('highlight');
+					
+					setTimeout(function(){
+						$this.classList.remove('highlight');
+					}, 500);
+				}
+			}
+		
+		
+		window.addEventListener('load', diffChanges);
+    </script>
+</head>
+
+<body>
+	
+	<div id="diff-header">
+        <div id="changes">
+			<div>
+				<strong>
+					Changed:
+				</strong>
+			</div>
+            <div id="new">
+                
+            </div>
+            <div id="delete">
+                
+            </div>
+        </div>
+    </div>
+
+	<div id="advancedDiff"></div>    
+
+</body>
+</html>

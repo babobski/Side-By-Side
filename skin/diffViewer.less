@@ -109,6 +109,9 @@ html {
 	font-size: 13px;
 	> table {
 		width: 100%;
+		.replace {
+			cursor: pointer;
+		}
 		th {
 			&:nth-child(1),
 			&:nth-child(3) {
@@ -182,5 +185,37 @@ table.diff {
 	}
 	.author {
 		display: none;
+	}
+}
+
+#advancedDiff {
+	width: 100%;
+	min-width: 700px;
+	min-height: 340px;
+	max-width: 98vw;
+	max-height: 92vh;
+	height: 100%;
+	background-color: @background;
+	color: @foreground;
+	font-size: 14px;
+	font-family: @font;
+	padding: 38px 10px 10px;
+	box-sizing: border-box;
+	white-space: pre-wrap;
+	.added {
+		color: @state-ok;
+		background-color: fade(@state-ok, 25%);
+		cursor: pointer;
+		&.highlight {
+			border: 1px solid @state-ok;
+		}
+	}
+	.removed {
+		color: @state-error;
+		background-color: fade(@state-error, 25%);
+		cursor: pointer;
+		&.highlight {
+			border: 1px solid @state-error;
+		}
 	}
 }
