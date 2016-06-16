@@ -13,8 +13,11 @@
 		var scrollPoints = [];
 		var currenChange = 0;
 		var changes = [];
+		var inserted = [];
+		var deleted = [];
 		var newtxt  = difflib.stringAsLines(self.diff01);
 		var base = difflib.stringAsLines(self.diff02);
+		var clipboard = self.clipboard;
         
         function diffUsingJS() {
         
@@ -59,9 +62,11 @@
 				}
                 switch (op[i][0]) {
 					case 'insert':
+						inserted.push(op[i]);
                         insert++;
                         break;
                     case 'delete':
+						deleted.push(op[i]);
                         del++;
                         break;
                     case 'replace':
@@ -84,6 +89,10 @@
 					
 					if ($thisTd.classList.contains('replace')) {
 						$thisTd.addEventListener('click', showAdvancedDiff);
+					} else if ($thisTd.classList.contains('insert')) {
+						$thisTd.addEventListener('click', copyInsert);
+					} else if ($thisTd.classList.contains('delete')) {
+						$thisTd.addEventListener('click', copyDelete);
 					}
 				}
 				
@@ -223,7 +232,130 @@
 				result.push(change);
 			}
 			
+			
+			
+			
+			
 			return result;
+		}
+		
+		function procesInserts(inserted, newtxt) {
+			var result = [];
+			
+			for (var i = 0; i < inserted.length; i++) {
+				var x = inserted[i];
+				var newStart;
+				var newEnd = x[4];
+				var newLines = '';
+				var insert;
+				var EOL = test_eol(self.diff01);
+				
+				
+				for (newStart = x[3]; newStart < newEnd; newStart++) {
+					newLines = newLines + newtxt[newStart] + EOL;
+				}
+				
+				
+				insert = {
+					newRange: {
+						start: x[3],
+						end: newEnd,
+					},
+					newL: newLines,
+				};
+				
+				
+				result.push(insert);
+			}
+			
+			return result;
+		}
+		
+		function proceDeleted(deleted, base) {
+			var result = [];
+			
+			for (var i = 0; i < deleted.length; i++) {
+				var x = deleted[i];
+				var baseStart;
+				var baseEnd = x[2];
+				var baseLines = '';
+				var del;
+				var EOL = test_eol(self.diff01);
+				
+				
+				for (baseStart = x[1]; baseStart < baseEnd; baseStart++) {
+					baseLines = baseLines + base[baseStart] + EOL;
+				}
+				
+				del = {
+					baseRange: {
+						start: x[1],
+						end: baseEnd,
+					},
+					base: baseLines,
+				};
+				
+				
+				result.push(del);
+			}
+			
+			return result;
+		}
+		
+		function copyInsert() {
+			var changeStatus = document.getElementById('changeStatus');
+			var lineNumber =+ this.previousSibling.innerHTML;
+			var diffs = procesInserts(inserted, newtxt);
+			var diffFound = false;
+			var insert;
+			var cellIndex = this.cellIndex;
+			var statusVal = changeStatus.innerHTML;
+			
+			for (var i = 0; i < diffs.length; i++) {
+				var ch = diffs[i];
+				
+				if (inRange(ch.newRange, lineNumber) && cellIndex === 1) {
+					insert = ch.newL;
+					diffFound = true;
+				}
+			}
+			
+			if (diffFound) {
+				clipboard.set(insert);
+				changeStatus.innerHTML = 'Copied';
+				
+				setTimeout(function(){
+					changeStatus.innerHTML = statusVal;
+				}, 700);
+			}
+		}
+		
+		function copyDelete() {
+			var changeStatus = document.getElementById('changeStatus');
+			var lineNumber =+ this.previousSibling.innerHTML;
+			var diffs = proceDeleted(deleted, base);
+			var diffFound = false;
+			var del;
+			var cellIndex = this.cellIndex;
+			var statusVal = changeStatus.innerHTML;
+			
+			for (var i = 0; i < diffs.length; i++) {
+				var ch = diffs[i];
+				
+				if (inRange(ch.baseRange, lineNumber) && cellIndex === 3) {
+					del = ch.base;
+					diffFound = true;
+				}
+			}
+			
+			if (diffFound) {
+				clipboard.set(del);
+				changeStatus.innerHTML = 'Copied';
+				
+				setTimeout(function(){
+					changeStatus.innerHTML = statusVal;
+				}, 700);
+			}
 		}
 		
 		function test_eol(source) {

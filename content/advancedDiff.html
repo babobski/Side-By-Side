@@ -66,8 +66,30 @@
 					
 					setTimeout(function(){
 						$this.classList.remove('highlight');
-					}, 500);
+					}, 700);
 				}
+			}
+			
+			function copyLeftDiff() {
+				var changeStatus = document.getElementById('changeStatus');
+				
+				clipboard.set(newTxt);
+				changeStatus.innerHTML = 'Copied';
+				
+				setTimeout(function(){
+					changeStatus.innerHTML = '';
+				}, 700);
+			}
+			
+			function copyRightDiff() {
+				var changeStatus = document.getElementById('changeStatus');
+				
+				clipboard.set(newTxt);
+				changeStatus.innerHTML = 'Copied';
+				
+				setTimeout(function(){
+					changeStatus.innerHTML = '';
+				}, 700);
 			}
 		
 		
@@ -78,6 +100,18 @@
 <body>
 	
 	<div id="diff-header">
+		<div id="buttons">
+			<button id="prev" onclick="copyLeftDiff();">
+				Copy left Change
+			</button>
+			<button id="next" onclick="copyRightDiff();">
+				Copy right Change
+			</button>
+			<div id="changeStatus">
+				
+			</div>
+		</div>
+		
         <div id="changes">
 			<div>
 				<strong>

@@ -92,6 +92,7 @@ if (typeof(extensions.SideBySide) === 'undefined') extensions.SideBySide = {
 			diff02: diff02,
 			title01: title01 === 'Clipboard' ? title01 : ko.uriparse.displayPath(title01),
 			title02: ko.uriparse.displayPath(title02),
+			clipboard: clipboard,
 		};
 		
 		 win.openDialog(chromeURL, 'SideBySide',
