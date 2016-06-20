@@ -228,13 +228,8 @@
 					newL: newLines,
 				};
 				
-				
 				result.push(change);
 			}
-			
-			
-			
-			
 			
 			return result;
 		}
@@ -255,7 +250,6 @@
 					newLines = newLines + newtxt[newStart] + EOL;
 				}
 				
-				
 				insert = {
 					newRange: {
 						start: x[3],
@@ -263,7 +257,6 @@
 					},
 					newL: newLines,
 				};
-				
 				
 				result.push(insert);
 			}
@@ -322,7 +315,7 @@
 			
 			if (diffFound) {
 				clipboard.set(insert);
-				changeStatus.innerHTML = 'Copied';
+				changeStatus.innerHTML = '<b>Copied</b>';
 				
 				setTimeout(function(){
 					changeStatus.innerHTML = statusVal;
@@ -350,7 +343,7 @@
 			
 			if (diffFound) {
 				clipboard.set(del);
-				changeStatus.innerHTML = 'Copied';
+				changeStatus.innerHTML = '<b>Copied</b>';
 				
 				setTimeout(function(){
 					changeStatus.innerHTML = statusVal;
@@ -384,7 +377,7 @@
 				Next Change
 			</button>
 			<div id="changeStatus">
-				No changes found
+				<strong>No changes found</strong>
 			</div>
 		</div>
 		

@@ -68,12 +68,15 @@
 			
 			function copyDiff() {
 				var $this = this;
+				var changeStatus = document.getElementById('changeStatus');
 				if ($this.classList.contains('added') || $this.classList.contains('removed')) {
 					clipboard.set($this.innerHTML);
 					$this.classList.add('highlight');
+					changeStatus.innerHTML = '<b>Copied</b>';
 					
 					setTimeout(function(){
 						$this.classList.remove('highlight');
+						changeStatus.innerHTML = '';
 					}, 700);
 				}
 			}
@@ -82,7 +85,7 @@
 				var changeStatus = document.getElementById('changeStatus');
 				
 				clipboard.set(newTxt);
-				changeStatus.innerHTML = 'Copied';
+				changeStatus.innerHTML = '<b>Copied</b>';
 				
 				setTimeout(function(){
 					changeStatus.innerHTML = '';
@@ -93,7 +96,7 @@
 				var changeStatus = document.getElementById('changeStatus');
 				
 				clipboard.set(newTxt);
-				changeStatus.innerHTML = 'Copied';
+				changeStatus.innerHTML = '<b>Copied</b>';
 				
 				setTimeout(function(){
 					changeStatus.innerHTML = '';
@@ -115,17 +118,22 @@
 			<button id="next" onclick="copyRightDiff();">
 				Copy right Change
 			</button>
+			<div id="diffSelect">
+				<strong>
+					Diff by
+				</strong>
+				<select id="diffStyle" name="diffStyle" onchange="diffChanges(this.value);">
+					<option value="char">
+						Character
+					</option>
+					<option value="word">
+						Words
+					</option>
+				</select>
+			</div>
 			<div id="changeStatus">
 				
 			</div>
-			<select id="diffStyle" name="diffStyle" onchange="diffChanges(this.value);">
-				<option value="char">
-					Character
-				</option>
-				<option value="word">
-					Words
-				</option>
-			</select>
 		</div>
 		
         <div id="changes">

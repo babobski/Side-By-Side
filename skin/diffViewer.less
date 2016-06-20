@@ -63,6 +63,16 @@ html {
 		font-family: @font;
 		font-size: 12px;
 		color: @foreground;
+		strong {
+			color: @state-error;
+		}
+		b {
+			background-color: @state-ok;
+			color: @background;
+			transition: all 200ms ease;
+			padding: 2px 5px;
+			font-size: 10px;
+		}
 	}
 }
 
@@ -222,9 +232,20 @@ table.diff {
 	}
 }
 
+#diffSelect {
+	display: inline-block;
+	vertical-align: top;
+	color: @button-foreground;
+	font-family: @font;
+	font-size: 12px;
+}
+
 #diffStyle {
 	background-color: @background;
 	color: @foreground;
 	border: 1px solid @border;
-	margin-top: 4px;
+	margin-top: 1px;
+	-moz-appearance: none;
+	padding: 2px;
+	min-width: 90px;
 }
