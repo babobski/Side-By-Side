@@ -9,18 +9,21 @@
     </commandset>
 	
 	<menupopup id="popup_tools">
-      <menu id="menu_side_by_side_tools" label="Side By Side">
+      <menu id="menu_side_by_side_tools" accesskey="s" insertafter="menu_compareFiles" label="Compare Side By Side">
         <menupopup id="menu_side_by_side_popup">
          <menuitem id="menu_side_by_side_file"
                   label="Diff Files"
+				  accesskey="f"
                   observes="Tasks:diffFiles"
                   class="menu-iconic-wide" />
           <menuitem id="menu_side_by_side_buffer"
                   label="Diff with Clipboard"
+				  accesskey="c"
                   observes="Tasks:diffClipboard"
                   class="menu-iconic-wide" />
           <menuitem id="menu_side_by_side_selection"
                   label="Diff current buffer with file on disk"
+				  accesskey="d"
                   observes="Tasks:diffDisk"
                   class="menu-iconic-wide" />
 		</menupopup>

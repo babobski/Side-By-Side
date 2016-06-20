@@ -14,14 +14,22 @@
 			clipboard = self.clipboard;
 			
 			
-			function diffChanges() {
+			function diffChanges(diffStyle) {
 				var span = null,
 					added = 0,
-					del = 0;
+					del = 0,
+					diff = null,
+					display = document.getElementById('advancedDiff');
+					
+				display.innerHTML = '';
+				
+				if (diffStyle === 'word') {
+					diff = JsDiff.diffWords(base, newTxt);
+				} else {
+					diff = JsDiff.diffChars(base, newTxt);
+				}
 			
-				var diff = JsDiff.diffChars(base, newTxt),
-					display = document.getElementById('advancedDiff'),
-					spans = document.getElementsByTagName('span'),
+				var spans = document.getElementsByTagName('span'),
 					fragment = document.createDocumentFragment();
 			
 				diff.forEach(function(part) {
@@ -110,6 +118,14 @@
 			<div id="changeStatus">
 				
 			</div>
+			<select id="diffStyle" name="diffStyle" onchange="diffChanges(this.value);">
+				<option value="char">
+					Character
+				</option>
+				<option value="word">
+					Words
+				</option>
+			</select>
 		</div>
 		
         <div id="changes">
