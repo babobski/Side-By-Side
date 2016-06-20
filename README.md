@@ -15,7 +15,7 @@ For changes on both sides the diff viewer provides a inline diff.
 Also the addon contains a copy functionality.
  
 ## Inline Diff 
-For changes where both sides has changes, when you click on the diff. 
+For changes where both sides has changes, when you click on the diff.   
 A inline diff viewer will appear:
 
 ![Inline diff](screenshot05.jpg)
