@@ -44,3 +44,7 @@ For easy access, you can also set up your custom key bindings:
 
 ![Key bindings](screenshot04.jpg)
 
+## Credits
+This adddon is build with:
+ * [jsdiff](https://github.com/kpdecker/jsdiff)
+ * [jsdifflib](https://github.com/cemerick/jsdifflib)
