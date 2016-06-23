@@ -7,8 +7,8 @@ A side by side Diffviewer for Komodo Edit/Ide
 
 Add's the ability to view changes side by side inside Komodo.  
 The addons provide three options to view changes side by side:  
- * Diff files
- * Diff current file with clipboard
+ * Diff files  
+ * Diff current file with clipboard  
  * Diff current buffer with file on disk  
 
 For changes on both sides the diff viewer provides a inline diff.  
@@ -46,5 +46,5 @@ For easy access, you can also set up your custom key bindings:
 
 ## Credits
 This adddon is build with:
- * [jsdiff](https://github.com/kpdecker/jsdiff)
- * [jsdifflib](https://github.com/cemerick/jsdifflib)
+ * [jsdiff](https://github.com/kpdecker/jsdiff)  
+ * [jsdifflib](https://github.com/cemerick/jsdifflib)  
