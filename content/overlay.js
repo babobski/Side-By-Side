@@ -3,7 +3,7 @@
  */
 if (typeof(extensions) === 'undefined') extensions = {};
 if (typeof(extensions.SideBySide) === 'undefined') extensions.SideBySide = {
-	version: '1.0'
+	version: '1.1'
 };
 
 (function() {

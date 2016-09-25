@@ -23,10 +23,10 @@
 					
 				display.innerHTML = '';
 				
-				if (diffStyle === 'word') {
-					diff = JsDiff.diffWords(base, newTxt);
-				} else {
+				if (diffStyle === 'char') {
 					diff = JsDiff.diffChars(base, newTxt);
+				} else {
+					diff = JsDiff.diffWords(base, newTxt);
 				}
 			
 				var spans = document.getElementsByTagName('span'),
@@ -123,11 +123,11 @@
 					Diff by
 				</strong>
 				<select id="diffStyle" name="diffStyle" onchange="diffChanges(this.value);">
-					<option value="char">
-						Character
-					</option>
 					<option value="word">
 						Words
+					</option>
+					<option value="char">
+						Character
 					</option>
 				</select>
 			</div>
