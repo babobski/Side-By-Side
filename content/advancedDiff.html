@@ -70,7 +70,7 @@
 				var $this = this;
 				var changeStatus = document.getElementById('changeStatus');
 				if ($this.classList.contains('added') || $this.classList.contains('removed')) {
-					clipboard.set($this.innerHTML);
+					clipboard.set($this.innerHTML, 'text');
 					$this.classList.add('highlight');
 					changeStatus.innerHTML = '<b>Copied</b>';
 					
@@ -84,7 +84,7 @@
 			function copyLeftDiff() {
 				var changeStatus = document.getElementById('changeStatus');
 				
-				clipboard.set(newTxt);
+				clipboard.set(base, 'text');
 				changeStatus.innerHTML = '<b>Copied</b>';
 				
 				setTimeout(function(){
@@ -95,7 +95,7 @@
 			function copyRightDiff() {
 				var changeStatus = document.getElementById('changeStatus');
 				
-				clipboard.set(newTxt);
+				clipboard.set(newTxt, 'text');
 				changeStatus.innerHTML = '<b>Copied</b>';
 				
 				setTimeout(function(){

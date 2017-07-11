@@ -314,7 +314,7 @@
 			}
 			
 			if (diffFound) {
-				clipboard.set(insert);
+				clipboard.set(insert, 'text');
 				changeStatus.innerHTML = '<b>Copied</b>';
 				
 				setTimeout(function(){
@@ -342,7 +342,7 @@
 			}
 			
 			if (diffFound) {
-				clipboard.set(del);
+				clipboard.set(del, 'text');
 				changeStatus.innerHTML = '<b>Copied</b>';
 				
 				setTimeout(function(){
