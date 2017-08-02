@@ -84,7 +84,7 @@
 			function copyLeftDiff() {
 				var changeStatus = document.getElementById('changeStatus');
 				
-				clipboard.set(base, 'text');
+				clipboard.set(newTxt, 'text');
 				changeStatus.innerHTML = '<b>Copied</b>';
 				
 				setTimeout(function(){
@@ -95,7 +95,7 @@
 			function copyRightDiff() {
 				var changeStatus = document.getElementById('changeStatus');
 				
-				clipboard.set(newTxt, 'text');
+				clipboard.set(base, 'text');
 				changeStatus.innerHTML = '<b>Copied</b>';
 				
 				setTimeout(function(){

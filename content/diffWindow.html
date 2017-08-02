@@ -94,7 +94,7 @@
 					} else if ($thisTd.classList.contains('delete')) {
 						$thisTd.addEventListener('click', copyDelete);
 					}
-				}
+				} 
 				
 				for (id = 0; id < th.length; id++) {
 					var $this = th[id];
@@ -109,6 +109,11 @@
 					}
 				}
 				
+			} else {
+				setTimeout(function(){
+					alert('No changes found!');
+					window.close();
+				}, 700);
 			}
 		}
 		
@@ -180,7 +185,11 @@
 			}
 			
 			if (diffFound) {
-				overlay._openAdvancedDiffWindow(diff01, diff02);
+				if (diff01.length + diff02.length > 2200) {
+					alert('current diff is to large!');
+				} else {
+					overlay._openAdvancedDiffWindow(diff01, diff02);
+				}
 			}
 		}
 		

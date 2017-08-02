@@ -3,7 +3,7 @@
  */
 if (typeof(extensions) === 'undefined') extensions = {};
 if (typeof(extensions.SideBySide) === 'undefined') extensions.SideBySide = {
-	version: '1.3'
+	version: '2.0'
 };
 
 (function() {
@@ -142,6 +142,50 @@ if (typeof(extensions.SideBySide) === 'undefined') extensions.SideBySide = {
 		return false;
 	};
 	
+	this._addDynamicToolbarButton = function() {
+		const db = require('ko/dynamic-button');
+		const koPart = Cc["@activestate.com/koPartService;1"].getService(Ci.koIPartService);
+
+		const view = () => {
+			return ko.views.manager.currentView && ko.views.manager.currentView.title !== "New Tab";
+		};
+
+		const button = db.register({
+			label: "Side by side",
+			tooltip: "Side by Side",
+			icon: "eye",
+			events: [
+				"current_view_changed",
+			],
+			menuitems: [
+				{
+					label: "Diff files",
+					name: "diff-files",
+					command: () => {
+						extensions.SideBySide.compareFiles();
+					}
+				},
+				{
+					label: "Compare with clipboard",
+					name: "compare-clipboard",
+					command: () => {
+						extensions.SideBySide.compareWithClipoard();
+					}
+				},
+				{
+					label: "Compare with file on disk",
+					name: "compare-on-disk",
+					command: () => {
+						extensions.SideBySide.compareWithDisk();
+					}
+				}
+			],
+			isEnabled: () => {
+				return view();
+			},
+		});
+	};
 	
+	self._addDynamicToolbarButton();
 	
 }).apply(extensions.SideBySide);
