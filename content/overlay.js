@@ -144,7 +144,6 @@ if (typeof(extensions.SideBySide) === 'undefined') extensions.SideBySide = {
 	
 	this._addDynamicToolbarButton = function() {
 		const db = require('ko/dynamic-button');
-		const koPart = Cc["@activestate.com/koPartService;1"].getService(Ci.koIPartService);
 
 		const view = () => {
 			return ko.views.manager.currentView && ko.views.manager.currentView.title !== "New Tab";
